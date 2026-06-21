@@ -1,0 +1,27 @@
+name: build
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+    container:
+      image: hub.internal:8082/node:22
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm test --if-present
+
+  build-image:
+    needs: test
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          TAG=${{ github.sha }}
+          podman build -t hub.internal:8082/myapi:${TAG} -t hub.internal:8082/myapi:latest .
+          podman login -u "${{ secrets.NX_USER }}" -p "${{ secrets.NX_PASS }}" hub.internal:8082 --tls-verify=false
+          podman push --tls-verify=false hub.internal:8082/myapi:${TAG}
+          podman push --tls-verify=false hub.internal:8082/myapi:latest

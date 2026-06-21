@@ -1,0 +1,9 @@
+# Git repositories to ship into Gitea on the offline side.
+# - One repo per line. Format:    <upstream-url>   <gitea-owner/name>
+# - The mac script clones --mirror, the hub script pushes into Gitea.
+# - Comments and blank lines ignored.
+#
+# Examples:
+# https://github.com/your-org/proj-a.git              team/proj-a
+# https://github.com/your-org/proj-b.git              team/proj-b
+# https://github.com/some/public-dependency.git       vendored/public-dependency

@@ -1,0 +1,28 @@
+name: build
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+    container:
+      image: hub.internal:8082/python:3.12-slim
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt pytest
+      - run: pytest -q || true   # remove `|| true` once you have tests
+
+  build-image:
+    needs: test
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and push
+        run: |
+          TAG=${{ github.sha }}
+          podman build -t hub.internal:8082/myapp:${TAG} -t hub.internal:8082/myapp:latest .
+          podman login -u "${{ secrets.NX_USER }}" -p "${{ secrets.NX_PASS }}" hub.internal:8082 --tls-verify=false
+          podman push --tls-verify=false hub.internal:8082/myapp:${TAG}
+          podman push --tls-verify=false hub.internal:8082/myapp:latest

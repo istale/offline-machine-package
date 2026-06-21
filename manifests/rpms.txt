@@ -1,0 +1,10 @@
+# Extra RPM packages to sideload into Nexus rpm-internal.
+# - Usually you don't need this; the dnf proxies cover BaseOS/AppStream/EPEL.
+# - Use this only for RPMs the enterprise OSS dnf mirror does NOT carry.
+# - Format: package name (will be downloaded inside a Rocky 8.10 container) OR
+#   path to a local .rpm file (relative to repo root, prefix with `file:`).
+# - Run: scripts/mac/sideload-rpms.sh   -> dist/rpms-bundle-*.tar.gz
+#
+# Examples:
+# htop
+# file:./vendor-rpms/custom-tool-1.0-1.el8.x86_64.rpm

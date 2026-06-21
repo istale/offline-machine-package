@@ -1,0 +1,11 @@
+# Python packages to sideload into Nexus pypi-internal.
+# - One spec per line (pip syntax). Comments and blank lines ignored.
+# - Add here when: (a) enterprise OSS doesn't carry it, or (b) you need to pin a
+#   version OSS doesn't expose.
+# - Run: scripts/mac/sideload-pypi.sh   -> dist/pypi-bundle-*.tar.gz
+#
+# Examples (uncomment / edit):
+# pandas==2.2.0
+# numpy>=1.26,<2
+# fastapi
+# uvicorn[standard]

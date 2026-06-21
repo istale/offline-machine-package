@@ -1,0 +1,12 @@
+# uv (Astral) — Python package + project manager
+# https://github.com/astral-sh/uv
+#
+# We ship only the static binary. uv is forced to use system Python
+# (/usr/bin/python3.12 via dnf) and never download a managed interpreter,
+# so we do NOT bundle python-build-standalone.
+
+# Pin a version (semver) or "latest". Pinning recommended for reproducibility.
+UV_VERSION=latest
+
+# Target arch — RHEL 8.10 = x86_64 + glibc 2.28. Don't change.
+UV_ARCH=x86_64-unknown-linux-gnu

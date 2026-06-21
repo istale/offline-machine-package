@@ -1,0 +1,23 @@
+# Hermes Agent Desktop — offline bundle config
+# https://hermes-agent.nousresearch.com  (MIT, https://github.com/NousResearch/hermes-agent)
+#
+# Edit values below, then run scripts/mac/sideload-hermes.sh
+# Produces dist/hermes-bundle-*.tar.gz containing a fully installed Hermes
+# tree that target machines can untar to INSTALL_PATH (must match).
+
+# Pin Hermes ref (tag / branch / commit). "main" = latest, pin for reproducibility.
+HERMES_REF=main
+
+# Install path. Standardized to /opt/hermes so venv shebangs and Playwright
+# cache paths match between container (build) and target (run). Do not change
+# unless you also update install-hermes.sh.
+INSTALL_PATH=/opt/hermes
+
+# Node / Python versions are dictated by upstream install.sh; do not pin here.
+
+# System RPM dependencies — installed on target via dnf (route through hub).
+# Listed here for reference; not used by sideload-hermes.sh directly.
+# Required:    git curl tar xz which findutils gcc python3-devel libffi-devel
+#              nss atk at-spi2-atk cups-libs libdrm libxkbcommon mesa-libgbm
+#              alsa-lib pango libXcomposite libXdamage libXrandr libXScrnSaver
+# Optional:    ripgrep ffmpeg

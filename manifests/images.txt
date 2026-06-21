@@ -1,0 +1,15 @@
+# Container images to sideload into Nexus docker-hosted.
+# - Full reference per line (registry/name:tag). Comments and blank lines ignored.
+# - Always pulled with --platform linux/amd64 (RHEL 8.10 target).
+# - Run: scripts/mac/sideload-images.sh   -> dist/images-bundle-*.tar.gz
+#
+# The seven images below are the "Phase 0" bundle (Nexus + base images).
+# After Nexus is up, you may keep these here or trim down.
+
+docker.io/sonatype/nexus3:latest
+docker.io/rockylinux/rockylinux:8.10
+docker.io/library/python:3.12-slim
+docker.io/library/node:22
+docker.io/library/redis:7
+docker.io/library/postgres:16
+docker.io/gitea/act_runner:latest

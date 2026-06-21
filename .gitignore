@@ -1,0 +1,7 @@
+dist/
+workspace/
+*.tar
+*.tar.gz
+*.whl
+*.tgz
+.DS_Store

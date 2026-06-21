@@ -1,0 +1,21 @@
+# Quadlet unit — drop into ~/.config/containers/systemd/myapp.container
+# Then: systemctl --user daemon-reload && systemctl --user start myapp
+# Requires podman 4.4+ (RHEL 8.10 ships podman with Quadlet support).
+[Unit]
+Description=My Flask app (container)
+After=network-online.target
+
+[Container]
+Image=hub.internal:8082/myapp:latest
+PublishPort=127.0.0.1:8000:8000
+Environment=PYTHONUNBUFFERED=1
+AutoUpdate=registry
+# Mount config/secrets read-only if needed:
+# Volume=%h/myapp-config:/etc/myapp:ro,Z
+
+[Service]
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

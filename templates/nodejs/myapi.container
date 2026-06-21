@@ -1,0 +1,17 @@
+# Quadlet unit — drop into ~/.config/containers/systemd/myapi.container
+[Unit]
+Description=My Node API (container)
+After=network-online.target
+
+[Container]
+Image=hub.internal:8082/myapi:latest
+PublishPort=127.0.0.1:3000:3000
+Environment=NODE_ENV=production
+AutoUpdate=registry
+
+[Service]
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

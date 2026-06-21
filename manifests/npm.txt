@@ -1,0 +1,8 @@
+# npm packages to sideload into Nexus npm-internal.
+# - One spec per line (npm syntax: name or name@version). Comments and blank lines ignored.
+# - Run: scripts/mac/sideload-npm.sh   -> dist/npm-bundle-*.tar.gz
+#
+# Examples:
+# lodash@4.17.21
+# react@18
+# typescript
