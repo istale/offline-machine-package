@@ -1,8 +1,8 @@
 # offline-machine-package
 
-Toolkit for maintaining 10+ offline RHEL 8.10 machines via a central Nexus 3 hub
-on NetApp. Manifest-driven: edit `manifests/*.txt`, run the sideload script,
-ship the resulting tarball to the hub, run the upload script.
+Toolkit for maintaining a custom develop environment. Manifest-driven: edit
+`manifests/*.txt`, run the sideload script, ship the resulting tarball to the
+hub, run the upload script.
 
 The repo has two flow families:
 
