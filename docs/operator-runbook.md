@@ -166,10 +166,17 @@ sudo ln -s /data/hermes-code/hermes-agent /usr/local/lib/hermes-agent
 # venv shebang 仍指向 /usr/local/lib/...，但實體在 NetApp / 其他位置
 ```
 
+**多 user 共用同一台機器**（NFS home 等）：
+- 一台機器只需 `sudo ./install-hermes.sh` **一次** — 之後所有 user 都能跑 `hermes`
+- 每個 user 第一次跑 `hermes` 時，Python code 用 `Path.home()/.hermes` 在他們各自的 `$HOME`（NFS 也 OK）建立資料夾
+- 第一次跑會被引導跑 `hermes setup` 設定自己的 API key / SOUL.md
+- Node/uv 共用工具已被 install script 從 `/root/.hermes/{node,bin}` 搬到 `/opt/hermes-tools/`（world-readable），所有 user 透過 PATH 找得到
+
 **常見問題**：
 - shebang `No such file` → code 目錄被直接 mv 走（沒留 symlink）。建回 symlink 即可。
 - Chromium 啟動失敗少 lib → install-hermes.sh 開頭 dnf install 那串補齊，特別是 `nss atk cups-libs`。
 - 升級後想保留舊版 → install-hermes.sh 會自動把舊路徑搬到 `.bak.YYYYMMDD-HHMMSS`，要還原直接 mv 回來。
+- 非 root user 跑 `hermes` 抱怨找不到 node/npm → `/etc/profile.d/hermes.sh` 沒 source（重新開 shell 或 `source /etc/profile.d/hermes.sh`）
 
 ### 1.6 「裝 / 升級 uv」
 
