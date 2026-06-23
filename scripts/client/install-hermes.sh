@@ -31,8 +31,26 @@ done
 
 # 2. fetch bundle
 TMP="$(mktemp -d)"; trap "rm -rf $TMP" EXIT
-echo "[hermes] fetching $BUNDLE_URL"
-curl -fsSL "$BUNDLE_URL" -o "$TMP/hermes.tar.gz"
+
+# If first arg is a local .tar.gz path, use it directly (helper flow).
+# Otherwise fetch from hub (default flow). --install-deps is consumed earlier.
+LOCAL_BUNDLE=""
+for arg in "$@"; do
+  [[ "$arg" == "--install-deps" ]] && continue
+  if [[ -f "$arg" && "$arg" == *.tar.gz ]]; then
+    LOCAL_BUNDLE="$arg"
+    break
+  fi
+done
+
+if [[ -n "$LOCAL_BUNDLE" ]]; then
+  echo "[hermes] using local bundle: $LOCAL_BUNDLE"
+  cp "$LOCAL_BUNDLE" "$TMP/hermes.tar.gz"
+else
+  echo "[hermes] fetching $BUNDLE_URL"
+  curl -fsSL "$BUNDLE_URL" -o "$TMP/hermes.tar.gz"
+fi
+
 mkdir -p "$TMP/extract"
 tar -C "$TMP/extract" -xzf "$TMP/hermes.tar.gz"
 
