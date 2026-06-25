@@ -11,6 +11,29 @@
 #   NPM_REGISTRY  Nexus npm group URL (default: http://nexus.internal:8081/repository/npm-group/)
 #   NPM_CACHE     local cache dir (default: /var/tmp/$USER-npmcache, off-NFS)
 #   SKIP_BUILD=1  install deps only, skip `npm run build`
+#
+# ----------------------------------------------------------------------
+# Example: build + run llm-wiki MCP server on an offline RHEL host
+# ----------------------------------------------------------------------
+# Source tarball comes from the offline-machine-package GitHub release
+# (asset: llm-wiki-src-v0.5.2.tar.gz). Helper delivers it; no internet needed
+# on the target — npm deps come from your in-house Nexus.
+#
+#   # 1. unpack the upstream source the helper brought in
+#   mkdir -p ~/llm-wiki && tar xzf llm-wiki-src-v0.5.2.tar.gz -C ~/llm-wiki
+#
+#   # 2. install deps + tsc build via Nexus npm-group
+#   NPM_REGISTRY=http://nexus.internal:8081/repository/npm-group/ \
+#     bash build-node-project.sh ~/llm-wiki/mcp-server
+#
+#   # 3. run the MCP server (Node >= 20; RHEL 8.10 has v22/v24 from OSS)
+#   node ~/llm-wiki/mcp-server/dist/src/index.js
+#
+#   # 4. wire it into your agent's MCP config, e.g.:
+#   #   { "mcpServers": { "llm-wiki": {
+#   #       "command": "node",
+#   #       "args": ["/home/<user>/llm-wiki/mcp-server/dist/src/index.js"] } } }
+# ----------------------------------------------------------------------
 set -euo pipefail
 
 DIR="${1:?usage: $0 <project-dir>}"
