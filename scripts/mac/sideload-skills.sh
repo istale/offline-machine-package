@@ -18,6 +18,7 @@ DEFAULT_REPOS=(
   "addyosmani/agent-skills"
   "bergside/awesome-design-skills"
   "awesome-skills/code-review-skill"
+  "nextlevelbuilder/ui-ux-pro-max-skill"
 )
 read -r -a REPOS <<< "${SKILL_REPOS:-${DEFAULT_REPOS[*]}}"
 
@@ -56,7 +57,12 @@ MANIFEST="$WORK/manifest.json"
     printf '    {"id": "%s", "name": "%s", "repo": "%s", "path": "%s", "description": %s}' \
       "$rel" "$skillname" "$repo" "$rel" "$(printf '%s' "$desc" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')"
     first=0
-  done < <(find "$WORK/repos" -name SKILL.md -type f | sort)
+  done < <(find "$WORK/repos" -name SKILL.md -type f \
+              -not -path '*/cli/assets/*' \
+              -not -path '*/preview/*' \
+              -not -path '*/node_modules/*' \
+              -not -path '*/test/*' \
+              -not -path '*/tests/*' | sort)
   echo
   echo "  ]"
   echo "}"
